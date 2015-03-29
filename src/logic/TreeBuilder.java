@@ -20,10 +20,10 @@ public class TreeBuilder {
         this.attributeNames = (ArrayList<String>) data[ReadInstances.ATTRNAMES];
         this.allInstances = (ArrayList<Instance>) data[ReadInstances.INSTANCES];
 
-        System.out.println("Printing the nodes from left to right");
-        printNode(build(allInstances, attributeNames));
+        build(allInstances, attributeNames).report("");
     }
 
+    //Returns root node
     public Node build (List<Instance> instances, List<String> attributes) {
         if (instances.isEmpty()) {
             return findMostProbableClass(allInstances);
@@ -69,7 +69,7 @@ public class TreeBuilder {
     }
 
     private LeafNode findMostProbableClass(List<Instance> instances) {
-        int[] total = new int[2];
+        int[] total = new int[classNames.size()];
         for (Instance instance : instances) {
             total[instance.getClassName()]++;
         }
@@ -81,24 +81,10 @@ public class TreeBuilder {
     }
 
     private double findImpurity(List<Instance> instances) {
-        int[] total = new int[2];
+        int[] total = new int[classNames.size()];
         for (Instance instance : instances) {
             total[instance.getClassName()]++;
         }
         return (total[DIE] * total[LIVE]) / (Math.pow((total[DIE] + total[LIVE]), 2));
-    }
-
-    private String indent = " ";
-    private Node printNode(Node node) {
-        node.report(indent);
-
-        if (node.getLeft() != null) {
-            printNode(node.getLeft());
-        }
-
-        if (node.getRight() != null) {
-            printNode(node.getRight());
-        }
-        return node;
     }
 }

@@ -8,23 +8,16 @@ public class LeafNode extends Node {
     private final double probability;
 
     public LeafNode(String className, double probability) {
-        super("", null, null);
-
         this.className = className;
         this.probability = probability;
     }
 
-    public String getClassName() {
-        return className;
-    }
-
-    public double getProbability() {
-        return probability;
-    }
-
     @Override
     public void report(String indent){
-        System.out.format("%sClass %s, prob=$4.2f\n",
-                indent, className, probability);
+        /*if (count==0)
+            System.out.format("%sUnknown\n", indent);
+        else*/
+            System.out.format("%sClass %s, prob=%4.2f\n",
+                    indent, className, probability);
     }
 }
