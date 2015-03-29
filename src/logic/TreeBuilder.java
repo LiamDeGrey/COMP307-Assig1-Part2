@@ -88,16 +88,17 @@ public class TreeBuilder {
         return (total[DIE] * total[LIVE]) / (Math.pow((total[DIE] + total[LIVE]), 2));
     }
 
-    private Node printNode(Node root) {
-        if (root.getLeft() != null) {
-            printNode(root.getLeft());
+    private String indent = " ";
+    private Node printNode(Node node) {
+        node.report(indent);
+
+        if (node.getLeft() != null) {
+            printNode(node.getLeft());
         }
 
-        System.out.println(root.toString());
-
-        if (root.getRight() != null) {
-            printNode(root.getRight());
+        if (node.getRight() != null) {
+            printNode(node.getRight());
         }
-        return root;
+        return node;
     }
 }

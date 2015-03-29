@@ -13,4 +13,18 @@ public class LeafNode extends Node {
         this.className = className;
         this.probability = probability;
     }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    @Override
+    public void report(String indent){
+        System.out.format("%sClass %s, prob=$4.2f\n",
+                indent, className, probability);
+    }
 }

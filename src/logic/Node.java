@@ -22,6 +22,15 @@ public abstract class Node {
         return right;
     }
 
+    public void report(String indent){
+        System.out.format("%s%s = True:\n",
+                indent, name);
+        left.report(indent+" ");
+        System.out.format("%s%s = False:\n",
+                indent, name);
+        right.report(indent+" ");
+    }
+
     @Override
     public String toString() {
         return name;
