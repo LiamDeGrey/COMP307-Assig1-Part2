@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Decision Tree Learning:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Decision_Tree_Learning_jar</output-path>
+    <root id="archive" name="Decision Tree Learning.jar">
+      <element id="module-output" name="Decision Tree Learning" />
+    </root>
+  </artifact>
+</component>
