@@ -14,7 +14,8 @@ public class TreeBuilder {
     private final List<String> attributeNames;
     private final List<Instance> allInstances;
 
-    public TreeBuilder(String fileName) {
+    @SuppressWarnings("unchecked")
+	public TreeBuilder(String fileName) {
         Object[] data = ReadInstances.readDataFile(fileName);
         this.classNames = (ArrayList<String>) data[ReadInstances.CLASSNAMES];
         this.attributeNames = (ArrayList<String>) data[ReadInstances.ATTRNAMES];
@@ -39,14 +40,17 @@ public class TreeBuilder {
             ArrayList<Instance> bestTrueInstances = null;
             ArrayList<Instance> bestFalseInstances = null;
 
+
             for (int i = 0; i < attributes.size(); i++) { //iterate through all attributes
                 ArrayList<Instance> trueInstances = new ArrayList<>();
                 ArrayList<Instance> falseInstances = new ArrayList<>();
+
 
                 for (Instance instance : instances) {
                     if (instance.getValue(i)) trueInstances.add(instance);
                     else falseInstances.add(instance);
                 }
+
                 double trueImpurity = findImpurity(trueInstances);
                 double falseImpurity = findImpurity(falseInstances);
 
@@ -61,7 +65,16 @@ public class TreeBuilder {
                     bestFalseInstances = falseInstances;
                 }
             }
+            int indexToRemove = attributes.indexOf(bestAttr);
             attributes.remove(bestAttr);
+            //Instances remove this attribute value
+            for (Instance instance : bestTrueInstances) {
+            	instance.removeValue(indexToRemove);
+            }
+            for (Instance instance : bestFalseInstances) {
+            	instance.removeValue(indexToRemove);
+            }
+
             Node left = build(bestTrueInstances, attributes);
             Node right = build(bestFalseInstances, attributes);
             return new BranchNode(bestAttr, left, right);
@@ -69,7 +82,7 @@ public class TreeBuilder {
     }
 
     private LeafNode findMostProbableClass(List<Instance> instances) {
-        int[] total = new int[classNames.size()];
+        double[] total = new double[classNames.size()];
         for (Instance instance : instances) {
             total[instance.getClassName()]++;
         }
@@ -81,10 +94,15 @@ public class TreeBuilder {
     }
 
     private double findImpurity(List<Instance> instances) {
-        int[] total = new int[classNames.size()];
-        for (Instance instance : instances) {
-            total[instance.getClassName()]++;
-        }
-        return (total[DIE] * total[LIVE]) / (Math.pow((total[DIE] + total[LIVE]), 2));
+    	if (instances.isEmpty()) {
+    		return 0.0; //Return 0 if no values
+    	} else {
+    		int[] total = new int[classNames.size()];
+            for (Instance instance : instances) {
+                total[instance.getClassName()]++;
+            }
+
+            return (total[DIE] * total[LIVE]) / (Math.pow((total[DIE] + total[LIVE]), 2));
+    	}
     }
 }

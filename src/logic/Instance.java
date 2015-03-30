@@ -21,6 +21,10 @@ public class Instance {
         return vals.get(index);
     }
 
+    public void removeValue(int index) {
+    	vals.remove(index);
+    }
+
     public int getClassName(){
         return className;
     }
