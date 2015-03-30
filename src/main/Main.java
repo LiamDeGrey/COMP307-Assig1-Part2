@@ -1,5 +1,6 @@
 package main;
 
+import logic.TestInstances;
 import logic.TreeBuilder;
 
 /**
@@ -8,8 +9,9 @@ import logic.TreeBuilder;
 public class Main {
 
     public static void main(String[] args) {
-        if (args.length > 0) {
-            new TreeBuilder(args[0]);
+        if (args.length > 1) {
+            TreeBuilder tree = new TreeBuilder(args[0]);
+            new TestInstances(tree.getRoot(), args[1]);
         }
     }
 }

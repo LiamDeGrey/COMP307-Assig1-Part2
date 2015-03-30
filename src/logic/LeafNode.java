@@ -12,6 +12,10 @@ public class LeafNode extends Node {
         this.probability = probability;
     }
 
+    public String getClassName() {
+    	return className;
+    }
+
     @Override
     public void report(String indent){
         /*if (count==0)

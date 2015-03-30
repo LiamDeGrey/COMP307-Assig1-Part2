@@ -14,6 +14,8 @@ public class TreeBuilder {
     private final List<String> attributeNames;
     private final List<Instance> allInstances;
 
+    private Node root;
+
     @SuppressWarnings("unchecked")
 	public TreeBuilder(String fileName) {
         Object[] data = ReadInstances.readDataFile(fileName);
@@ -21,7 +23,8 @@ public class TreeBuilder {
         this.attributeNames = (ArrayList<String>) data[ReadInstances.ATTRNAMES];
         this.allInstances = (ArrayList<Instance>) data[ReadInstances.INSTANCES];
 
-        build(allInstances, attributeNames).report("");
+        root = build(allInstances, attributeNames);
+        root.report("");
     }
 
     //Returns root node
@@ -104,5 +107,9 @@ public class TreeBuilder {
 
             return (total[DIE] * total[LIVE]) / (Math.pow((total[DIE] + total[LIVE]), 2));
     	}
+    }
+
+    public Node getRoot() {
+    	return root;
     }
 }

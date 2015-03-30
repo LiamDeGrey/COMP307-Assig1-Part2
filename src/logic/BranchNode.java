@@ -15,6 +15,18 @@ public class BranchNode extends Node {
         this.right = right;
     }
 
+    public String getAttributeName() {
+    	return attr;
+    }
+
+    public Node getTrueNode() {
+    	return left;
+    }
+
+    public Node getFalseNode() {
+    	return right;
+    }
+
     @Override
     public void report(String indent){
         System.out.format("%s%s = True:\n",
