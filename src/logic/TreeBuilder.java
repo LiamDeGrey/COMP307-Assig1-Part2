@@ -7,8 +7,8 @@ import java.util.List;
  * Created by Liam on 29-Mar-15.
  */
 public class TreeBuilder {
-    public static final int DIE = 0;
-    public static final int LIVE = 1;
+    public static final int CLASS1 = 0;
+    public static final int CLASS2 = 1;
 
     private final List<String> classNames;
     private final List<String> attributeNames;
@@ -90,7 +90,7 @@ public class TreeBuilder {
             total[instance.getClassName()]++;
         }
 
-        int indexMax = (Math.max(total[DIE], total[LIVE]) == total[DIE])? DIE : LIVE;
+        int indexMax = (Math.max(total[CLASS1], total[CLASS2]) == total[CLASS1])? CLASS1 : CLASS2;
         String className = classNames.get(indexMax);
         double probability = total[indexMax] / instances.size();
         return new LeafNode(className, probability);
@@ -105,7 +105,7 @@ public class TreeBuilder {
                 total[instance.getClassName()]++;
             }
 
-            return (total[DIE] * total[LIVE]) / (Math.pow((total[DIE] + total[LIVE]), 2));
+            return (total[CLASS1] * total[CLASS2]) / (Math.pow((total[CLASS1] + total[CLASS2]), 2));
     	}
     }
 
