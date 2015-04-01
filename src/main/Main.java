@@ -12,9 +12,13 @@ public class Main {
 	private static final int RUNS = 2;
 	private static final String APPENDRUN = "-run";
 
+	private static double totalAccuracy = 0.0;
+
 	private static void test(String trainingFile, String testFile) {
 		TreeBuilder tree = new TreeBuilder(trainingFile);
-        new TestInstances(tree.getRoot(), tree.getLikelyClassName(), testFile);
+        TestInstances testInstances = new TestInstances(tree.getRoot(), tree.getLikelyClassName(), testFile);
+		totalAccuracy += testInstances.findAllClasses();
+		testInstances.printBaselineClassifier();
 	}
 
 	private static String[] getFileNames(String trainingFile, String testFile, int run) {
@@ -37,7 +41,7 @@ public class Main {
     		if (args.length < 3) {
     			test(trainingFile, testFile);
     		} else {
-    			int runs = Integer.parseInt(args[RUNS]);
+				int runs = Integer.parseInt(args[RUNS]);
 
     			String[] fileNames;
     	        for (int run = 1; run < runs + 1; run++){
@@ -45,6 +49,8 @@ public class Main {
     	        	System.out.println(fileNames[0]+", "+fileNames[1]);
     	        	test(fileNames[TRAININGFILE], fileNames[TESTFILE]);
     	        }
+
+				System.out.printf("\nAverage accuracy over %d runs = %.1f%%\n", runs, (totalAccuracy / runs) * 100.00);
     		}
     	}
     }

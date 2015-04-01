@@ -24,11 +24,9 @@ public class TestInstances {
         this.classNames = (ArrayList<String>) data[ReadInstances.CLASSNAMES];
         this.attributeNames = (ArrayList<String>) data[ReadInstances.ATTRNAMES];
         this.allInstances = (ArrayList<Instance>) data[ReadInstances.INSTANCES];
-		findBaselineClassifier();
-        findAllClasses();
 	}
 
-	private void findAllClasses() {
+	public double findAllClasses() {
 		totalTrueFalse = new double[2];
 		for (Instance instance : allInstances) {
 			String className = getLeafNode(instance, root).getClassName();
@@ -36,7 +34,9 @@ public class TestInstances {
 			totalTrueFalse[index]++;
 			System.out.printf("\nfound class Name = %s, actual class name = %s", className, classNames.get(instance.getClassName()));
 		}
-		System.out.printf("\nCorrectly classified : %2.1f%%\n", (totalTrueFalse[TRUE] / (totalTrueFalse[TRUE] + totalTrueFalse[FALSE])) * 100.00);
+		double percentageCorrect;
+		System.out.printf("\nCorrectly classified : %2.1f%%", ((percentageCorrect=totalTrueFalse[TRUE] / (totalTrueFalse[TRUE] + totalTrueFalse[FALSE])) * 100.00));
+		return percentageCorrect;
 	}
 
 	private LeafNode getLeafNode(Instance instance, Node node) {
@@ -50,11 +50,11 @@ public class TestInstances {
 		}
 	}
 
-	private void findBaselineClassifier() {
+	public void printBaselineClassifier() {
 		totalTrueFalse = new double[2];
 		for (Instance instance : allInstances) {
 			totalTrueFalse[(likelyClassName.equals(classNames.get(instance.getClassName())))? TRUE : FALSE]++;
 		}
-		System.out.printf("\nBaseline classifier = %.1f%%", (totalTrueFalse[TRUE] / (totalTrueFalse[TRUE] + totalTrueFalse[FALSE]))*100);
+		System.out.printf("\nBaseline classifier = %.1f%%\n", (totalTrueFalse[TRUE] / (totalTrueFalse[TRUE] + totalTrueFalse[FALSE]))*100);
 	}
 }
