@@ -8,31 +8,35 @@ public class TestInstances {
 	private static final int FALSE = 1;
 
 	private final Node root;
+	private final String likelyClassName;
 	private final List<String> classNames;
 	private final List<String> attributeNames;
 	private final List<Instance> allInstances;
 
-	private double[] totalTrueFalse = new double[2];
+	private double[] totalTrueFalse;//double because in later calculations a double is needed
 
 	@SuppressWarnings("unchecked")
-	public TestInstances(Node root, String fileName) {
+	public TestInstances(Node root, String likelyClassName, String fileName) {
 		Object[] data = ReadInstances.readDataFile(fileName);
 
 		this.root = root;
+		this.likelyClassName = likelyClassName;
         this.classNames = (ArrayList<String>) data[ReadInstances.CLASSNAMES];
         this.attributeNames = (ArrayList<String>) data[ReadInstances.ATTRNAMES];
         this.allInstances = (ArrayList<Instance>) data[ReadInstances.INSTANCES];
+		findBaselineClassifier();
         findAllClasses();
 	}
 
 	private void findAllClasses() {
+		totalTrueFalse = new double[2];
 		for (Instance instance : allInstances) {
 			String className = getLeafNode(instance, root).getClassName();
 			int index = (classNames.get(instance.getClassName()).equals(className))? TRUE : FALSE;
 			totalTrueFalse[index]++;
 			System.out.printf("\nfound class Name = %s, actual class name = %s", className, classNames.get(instance.getClassName()));
 		}
-		System.out.printf("\nCorrectly classified : %2.1f%%\n", (totalTrueFalse[TRUE] / (totalTrueFalse[TRUE] + totalTrueFalse[FALSE]))*100.00);
+		System.out.printf("\nCorrectly classified : %2.1f%%\n", (totalTrueFalse[TRUE] / (totalTrueFalse[TRUE] + totalTrueFalse[FALSE])) * 100.00);
 	}
 
 	private LeafNode getLeafNode(Instance instance, Node node) {
@@ -46,4 +50,11 @@ public class TestInstances {
 		}
 	}
 
+	private void findBaselineClassifier() {
+		totalTrueFalse = new double[2];
+		for (Instance instance : allInstances) {
+			totalTrueFalse[(likelyClassName.equals(classNames.get(instance.getClassName())))? TRUE : FALSE]++;
+		}
+		System.out.printf("\nBaseline classifier = %.1f%%", (totalTrueFalse[TRUE] / (totalTrueFalse[TRUE] + totalTrueFalse[FALSE]))*100);
+	}
 }

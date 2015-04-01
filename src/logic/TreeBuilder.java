@@ -112,4 +112,8 @@ public class TreeBuilder {
     public Node getRoot() {
     	return root;
     }
+
+    public String getLikelyClassName() {
+        return findMostProbableClass(allInstances).getClassName();
+    }
 }

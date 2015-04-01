@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         if (args.length > 1) {
             TreeBuilder tree = new TreeBuilder(args[0]);
-            new TestInstances(tree.getRoot(), args[1]);
+            new TestInstances(tree.getRoot(), tree.getLikelyClassName(), args[1]);
         }
     }
 }
